@@ -74,4 +74,5 @@
 ---
 
 ### 클래스 다이어그램
-![스크린샷 2024-11-11 오후 10 53 58](https://github.com/user-attachments/assets/b593fe07-d697-4626-80fd-e7539ba3fb73)
+![class](https://github.com/user-attachments/assets/33871bac-266b-48eb-bf88-bc4ed0074fad)
+
