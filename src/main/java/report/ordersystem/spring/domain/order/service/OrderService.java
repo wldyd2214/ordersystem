@@ -50,18 +50,24 @@ public class OrderService {
                        .collect(Collectors.toList());
     }
 
-    public void sendOrder(List<OrderInfo> orderInfos) {
+    public void sendOrders(List<OrderInfo> orderInfos) {
 
         if (orderInfos.size() == 0) {
             return;
         }
 
-        ;
-
         externalOrderClient.sendOrderData(OrderRequestMapper.INSTANCE.toExternalOrderSend(orderInfos));
     }
 
     public void addOrderInfo() {
-        orderRepository.insert(OrderStatus.INIT, LocalDateTime.now(), 1L);
+        orderRepository.insert(OrderStatus.INIT, LocalDateTime.now(), 1L, "테스트");
+    }
+
+    public List<OrderInfo> fetchOrders() {
+        return externalOrderClient.fetchOrdersData();
+    }
+
+    public void saveAll(List<OrderInfo> orderInfos) {
+        orderRepository.saveAll(orderInfos);
     }
 }

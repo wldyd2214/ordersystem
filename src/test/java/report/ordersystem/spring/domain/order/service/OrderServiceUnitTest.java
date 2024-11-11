@@ -47,7 +47,9 @@ class OrderServiceUnitTest {
         long orderId = 1;
         long userId = 1;
         LocalDateTime orderDate = LocalDateTime.now();
-        OrderEntity entity = createOrderEntity(orderId, orderDate, userId);
+        String userName = "사용자";
+
+        OrderEntity entity = createOrderEntity(orderId, orderDate, userId, userName);
 
         given(orderRepository.selectOneByOrderId(orderId)).willReturn(Optional.of(entity));
 
@@ -60,7 +62,7 @@ class OrderServiceUnitTest {
                              .contains(orderId, OrderStatus.INIT, orderDate, userId);
     }
 
-    private OrderEntity createOrderEntity(long orderId, LocalDateTime orderDate, long userId) {
-        return new OrderEntity(orderId, OrderStatus.INIT, orderDate, userId);
+    private OrderEntity createOrderEntity(long orderId, LocalDateTime orderDate, long userId, String userName) {
+        return new OrderEntity(orderId, OrderStatus.INIT, orderDate, userId, userName);
     }
 }

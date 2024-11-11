@@ -1,6 +1,7 @@
 package report.ordersystem.spring.presentation.external.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import report.ordersystem.spring.common.order.type.OrderStatus;
 import report.ordersystem.spring.presentation.common.ApiResponse;
@@ -13,6 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/external")
 public class ExternalController {
@@ -34,6 +36,7 @@ public class ExternalController {
     )
     @GetMapping("/orders/export")
     public ApiResponse<ExternalOrderList> getExternalOrders() {
+        log.info("외부서비스 주문 목록 조회 API 요청 성공!");
         List<ExternalOrder> orders = createExternalOrders(15);
         return ApiResponse.ok(ExternalOrderList.builder().orders(orders).build());
     }

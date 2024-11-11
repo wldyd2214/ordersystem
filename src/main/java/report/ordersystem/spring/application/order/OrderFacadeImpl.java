@@ -19,6 +19,16 @@ public class OrderFacadeImpl implements OrderFacade {
         List<OrderInfo> orderInfos = orderService.getOrderInfoByOrderIds(orderIds);
 
         // 2. 주문 정보 전송
-        orderService.sendOrder(orderInfos);
+        orderService.sendOrders(orderInfos);
+    }
+
+    @Override
+    public void processOrderInfoImport() {
+
+        // 1. 주문 정보 연동
+        List<OrderInfo> orderInfos = orderService.fetchOrders();
+
+        // 2. 메모리 저장
+        orderService.saveAll(orderInfos);
     }
 }

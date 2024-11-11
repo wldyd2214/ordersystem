@@ -9,8 +9,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import report.ordersystem.spring.common.order.type.OrderStatus;
+import report.ordersystem.spring.domain.order.dto.OrderInfo;
 import report.ordersystem.spring.domain.order.repository.OrderRepository;
 import report.ordersystem.spring.infrastructure.order.entity.OrderEntity;
+import report.ordersystem.spring.infrastructure.order.entity.mapper.OrderEntityMapper;
 
 @Component
 public class OrderRepositoryImpl implements OrderRepository {
@@ -18,8 +20,8 @@ public class OrderRepositoryImpl implements OrderRepository {
     private long cursor = 1;
 
     @Override
-    public OrderEntity insert(OrderStatus status, LocalDateTime orderDate, Long userId) {
-        OrderEntity pointHistory = new OrderEntity(cursor++, status, orderDate, userId);
+    public OrderEntity insert(OrderStatus status, LocalDateTime orderDate, Long userId, String userName) {
+        OrderEntity pointHistory = new OrderEntity(cursor++, status, orderDate, userId, userName);
         table.add(pointHistory);
         return pointHistory;
     }
@@ -60,5 +62,24 @@ public class OrderRepositoryImpl implements OrderRepository {
         return table.stream()
                     .filter(order -> orderIds.contains(order.id()))
                     .collect(Collectors.toList());
+    }
+
+    @Override
+    public void saveAll(List<OrderInfo> orderInfos) {
+        for (OrderInfo order : orderInfos) {
+            Optional<OrderEntity> existingOrder = table.stream()
+                                                       .filter(entity -> entity.id().equals(order.getId()))
+                                                       .findFirst();
+
+            OrderEntity saveEntity = OrderEntityMapper.INSTANCE.toOrderEntity(order);
+
+            if (existingOrder.isPresent()) {
+                // 같은 orderId가 있으면 덮어쓰기
+                table.set(table.indexOf(existingOrder.get()), saveEntity);
+            } else {
+                // 같은 orderId가 없으면 새로 추가
+                table.add(saveEntity);
+            }
+        }
     }
 }

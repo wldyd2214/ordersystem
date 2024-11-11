@@ -41,14 +41,15 @@ class OrderServiceIntegrationTest {
         OrderStatus status = OrderStatus.INIT;
         LocalDateTime orderDate = LocalDateTime.now();
         long userId = 1;
+        String userName = "사용자";
 
-        OrderEntity entity = orderRepository.insert(status, orderDate, userId);
+        OrderEntity entity = orderRepository.insert(status, orderDate, userId, userName);
 
         OrderInfo orderInfo = orderService.getOrderDetailInfo(entity.id());
 
         // when, then
         assertThat(orderInfo).isNotNull();
-        assertThat(orderInfo).extracting("id", "status", "orderDate", "userId")
-                             .contains(entity.id(), status, orderDate, userId);
+        assertThat(orderInfo).extracting("id", "status", "orderDate", "userId", "userName")
+                             .contains(entity.id(), status, orderDate, userId, userName);
     }
 }

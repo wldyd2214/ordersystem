@@ -28,8 +28,9 @@ class OrderControllerIntegrationTest {
         OrderStatus status = OrderStatus.INIT;
         LocalDateTime orderDate = LocalDateTime.now();
         long userId = 1;
+        String userName = "사용자";
 
-        OrderEntity entity = orderRepository.insert(status, orderDate, userId);
+        OrderEntity entity = orderRepository.insert(status, orderDate, userId, userName);
 
         // when
         ApiResponse<OrderResponse> response = orderController.getOrderDetail(entity.id());

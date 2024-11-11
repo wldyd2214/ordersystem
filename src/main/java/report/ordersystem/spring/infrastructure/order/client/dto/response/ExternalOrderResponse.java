@@ -1,4 +1,4 @@
-package report.ordersystem.spring.presentation.order.dto.response;
+package report.ordersystem.spring.infrastructure.order.client.dto.response;
 
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -7,12 +7,10 @@ import report.ordersystem.spring.common.order.type.OrderStatus;
 
 @Getter
 @Builder
-public class OrderResponse {
-    private Long id;
-    private OrderStatus status;
+public class ExternalOrderResponse {
+    private Long orderId;
+    private OrderStatus orderStatus;
     private LocalDateTime orderDate;
-
-    // 사용자 정보
     private Long userId;
     private String userName;
 }

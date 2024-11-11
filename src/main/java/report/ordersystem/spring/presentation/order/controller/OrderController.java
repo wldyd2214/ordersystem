@@ -33,16 +33,12 @@ public class OrderController {
     private final OrderService orderService;
 
     @Operation(
-        summary = "주문 정보 전송 API",
-        description = "내부 시스템에 저장된 주문 정보를 외부 시스템으로 전송하는 API 입니다."
+        summary = "주문 정보 저장 API",
+        description = "외부 시스템 요청하여 전달된 주문 정보를 저장하는 API 입니다."
     )
-    @PostMapping("/{orderIds}/export")
-    public ApiResponse<Void> postOrderExport(
-        @PathVariable
-        @NotNull
-        @Valid
-        List<@Min(1) Long> orderIds) {
-        orderFacade.processOrderInfoExport(orderIds);
+    @PostMapping("")
+    public ApiResponse<OrderResponse> postOrders() {
+        orderFacade.processOrderInfoImport();
         return ApiResponse.ok(null);
     }
 
@@ -67,5 +63,19 @@ public class OrderController {
     public ApiResponse<OrderListResponse> getOrders(@Valid @ModelAttribute OrderSearchRequest request) {
         OrderSearchInfo orderInfo = orderService.getOrderInfoList(request.getCount(), request.getPage());
         return ApiResponse.ok(OrderResponseMapper.INSTANCE.toOrderListResponse(orderInfo));
+    }
+
+    @Operation(
+        summary = "주문 정보 전송 API",
+        description = "내부 시스템에 저장된 주문 정보를 외부 시스템으로 전송하는 API 입니다."
+    )
+    @PostMapping("/{orderIds}/export")
+    public ApiResponse<Void> postOrdersExport(
+        @PathVariable
+        @NotNull
+        @Valid
+        List<@Min(1) Long> orderIds) {
+        orderFacade.processOrderInfoExport(orderIds);
+        return ApiResponse.ok(null);
     }
 }

@@ -14,4 +14,5 @@ public class OrderInfo {
 
     // 사용자 정보
     private Long userId;
+    private String userName;
 }
