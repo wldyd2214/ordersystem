@@ -62,8 +62,8 @@
 
 ### 패키지 구조
 - 도메인 주도 개발 방식으로 패키지가 구성 되어있습니다.
- - presentation: Controller로 외부에서 요청을 받는 소스들이 존재합니다.
-  - external 패키지: 외부 서비스 API가 제공되는 Controller가 존재하는 패키지입니다.
+    - presentation: Controller로 외부에서 요청을 받는 소스들이 존재합니다.
+        - external 패키지: 외부 서비스 API가 제공되는 Controller가 존재하는 패키지입니다.
   - order 패키지: 실제 내부 서비스의 API가 제공되는 Controller가 존재하는 패키지입니다.
   - temp 패키지: 기능 구현시 주문 데이터를 저장하고 테스트 하기위해 테스트 편의용으로 만든 컨트롤러가 존재하는 패키지 입니다.
  - application: Facade 즉 특정 행위를 하기 위한 각각의 Service 메소드를 호출하는 역할을 하는 로직이 존재합니다.
