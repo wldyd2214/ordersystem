@@ -9,7 +9,8 @@ import report.ordersystem.spring.common.order.type.OrderStatus;
 import report.ordersystem.spring.domain.order.client.ExternalOrderClient;
 import report.ordersystem.spring.domain.order.dto.OrderInfo;
 import report.ordersystem.spring.domain.order.dto.OrderSearchInfo;
-import report.ordersystem.spring.domain.order.dto.mapper.OrderMapper;
+import report.ordersystem.spring.domain.order.dto.mapper.request.OrderRequestMapper;
+import report.ordersystem.spring.domain.order.dto.mapper.response.OrderResponseMapper;
 import report.ordersystem.spring.domain.order.repository.OrderRepository;
 import report.ordersystem.spring.infrastructure.order.entity.OrderEntity;
 
@@ -24,7 +25,7 @@ public class OrderService {
             orderRepository.selectOneByOrderId(orderId)
                            .orElseThrow(() -> new IllegalArgumentException("주문 정보 미존재"));
 
-        return OrderMapper.INSTANCE.toOrderDetailInfo(entity);
+        return OrderResponseMapper.INSTANCE.toOrderDetailInfo(entity);
     }
 
     public OrderSearchInfo getOrderInfoList(Long count, Long page) {
@@ -45,7 +46,7 @@ public class OrderService {
         List<OrderEntity> entities = orderRepository.selectAllByOrderIds(orderIds);
 
         return entities.stream()
-                       .map(entity -> OrderMapper.INSTANCE.toOrderDetailInfo(entity))
+                       .map(entity -> OrderResponseMapper.INSTANCE.toOrderDetailInfo(entity))
                        .collect(Collectors.toList());
     }
 
@@ -55,7 +56,9 @@ public class OrderService {
             return;
         }
 
-        externalOrderClient.sendOrderData(orderInfos);
+        ;
+
+        externalOrderClient.sendOrderData(OrderRequestMapper.INSTANCE.toExternalOrderSend(orderInfos));
     }
 
     public void addOrderInfo() {
